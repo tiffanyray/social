@@ -25,13 +25,11 @@ class App extends Component {
           <Header.Content>Social</Header.Content>
         </Header>
           <p>Hello</p>
-          {this.state.users.map((user : any) => (
-            <List>
+          <List>
+            {this.state.users.map((user : any) => (
               <List.Item>{user.id}</List.Item>
-              <List.Item>{user.name}</List.Item>
-            </List>
-          ))}
-          
+            ))}
+          </List>
       </div>
     );
   }

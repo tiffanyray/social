@@ -21,5 +21,8 @@ namespace Persistence
                     new UserInfo { Id = 3, Name = "Name3" }
                 );
         }
+
+        public DbSet<Activity> Activities { get; set; }
+        
     }
 }
