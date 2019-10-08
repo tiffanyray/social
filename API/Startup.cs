@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Application.Activities;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -35,7 +36,7 @@ namespace API
                 });
             });
 
-            services.AddMediatR(typeof(List.Handler).Assembly);
+            services.AddMediatR(typeof(GetAll.Handler).Assembly);
 
             services.AddSwaggerGen(c => 
             {
