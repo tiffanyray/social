@@ -1,10 +1,11 @@
 const path = require('path'),
       webpack = require('webpack'),
-      HtmlWebpackPlugin = require('html-webpack-plugin');
+      HtmlWebpackPlugin = require('html-webpack-plugin'),
+      MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
-    app: ['./src/index.txs'],
+    app: ['./src/index.tsx'],
     vendor: ['react', 'react-dom']
   },
   output: {
@@ -13,7 +14,7 @@ module.exports = {
   },
   devtool: 'soure-map',
   resolve: {
-    extenstions: ['.js', '.jsx', '.json', '.ts', '.tsx']
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx', '.scss']
   },
   module: {
     rules: [
@@ -21,11 +22,70 @@ module.exports = {
         test: /\.(ts|tsx)$/,
         loader: 'ts-loader'
       },
-      { enforce: "pre", rest: /\.js$/, loader: "source-map-loader" }
+      { 
+        enforce: "pre", 
+        test: /\.js$/, 
+        loader: "source-map-loader" 
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader"
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|ttf|woff|woff2|eot)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          }
+        ]
+      },
+      {
+        test: /\.s(a|c)ss$/,
+        exclude: /\.module.(s(a|c)ss)$/,
+        loader: [
+          {
+            loader: "style-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "css-loader"
+          }
+        ]
+      },
+      {
+        test: /\.module\.s(a|c)ss$/,
+        loader: [
+          {
+            loader: 'style-loader',
+            options: {
+              sourceMap: true,
+              singleton: true
+            }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[path][name]__[local]--[hash:base64:5]'
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'src', 'index.html') }),
-    new webpack.HotModuleReplacementPlugin()
+    new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'public/index.html') }),
+    new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    })
   ]
 }
