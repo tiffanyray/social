@@ -5,11 +5,11 @@ export const Header = () => {
   return (
     <Menu fixed="top" inverted>
       <Container>
-          <Menu.Item name='Social' />
-          <Menu.Item name='Activities' />
-          <Menu.Item>
-            <Button positive content="Create Activity" />
-          </Menu.Item>
+        <Menu.Item name='Social' />
+        <Menu.Item name='Activities' />
+        <Menu.Item>
+          <Button positive content="Create Activity" />
+        </Menu.Item>
       </Container>
     </Menu>
   );
