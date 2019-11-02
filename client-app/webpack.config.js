@@ -20,7 +20,7 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        loader: 'ts-loader'
+        loader: "ts-loader"
       },
       { 
         enforce: "pre", 
@@ -36,7 +36,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|ttf|woff|woff2|eot)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
           }
         ]
       },
@@ -59,17 +59,17 @@ module.exports = {
         test: /\.module\.s(a|c)ss$/,
         loader: [
           {
-            loader: 'style-loader',
+            loader: "style-loader",
             options: {
               sourceMap: true,
               singleton: true
             }
           },
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               modules: {
-                localIdentName: '[path][name]__[local]--[hash:base64:5]'
+                localIdentName: "[path][name]__[local]--[hash:base64:5]"
               }
             }
           }
@@ -77,15 +77,15 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ["style-loader", "css-loader"]
       }
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'public/index.html') }),
+    new HtmlWebpackPlugin({ template: path.resolve(__dirname, "public/index.html") }),
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: "[name].css"
     })
   ]
 }

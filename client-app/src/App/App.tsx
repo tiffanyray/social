@@ -7,7 +7,18 @@ import { ActivityDashboard } from '../Features/activities/dashboard';
 
 
 const App = () => {
-  const [activities, setActivities] = useState<IActivity[]>([]);
+  let [activities, setActivities] = useState<IActivity[]>([]);
+  let [selectedActivity, setSelectedActivity] = useState<IActivity | null>(null);
+  let [edit, setEdit] = useState<boolean>(false);
+
+  const handleSelectActivity = (id: string) => {
+    setSelectedActivity(activities.filter(a => a.id === id)[0]);
+  };
+
+  const handleOpenCreateForm = () => {
+    setSelectedActivity(null);
+    setEdit(true);
+  }
 
   useEffect(() => {
     axios.get<IActivity[]>('https://localhost:5001/api/activities')
@@ -18,9 +29,16 @@ const App = () => {
 
   return (
     <div>
-      <Header />
+      <Header openForm={handleOpenCreateForm} />
       <Container style={{ marginTop: '6rem' }}>
-        <ActivityDashboard activities={activities} />
+        <ActivityDashboard 
+          activities={activities} 
+          selectActivity={handleSelectActivity}
+          selectedActivity={selectedActivity}
+          edit={edit}
+          setEdit={setEdit}
+          setSelectedActivity={setSelectedActivity}
+        />
       </Container>
     </div>
   )
