@@ -1,8 +1,0 @@
-﻿bin
-obj
-.vscode
-.DS_Store
-appsettings.json
-*.db
-.vs
-client-app/dist
