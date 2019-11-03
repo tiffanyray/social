@@ -4,11 +4,11 @@ import { IActivity } from '../../../App/Models/activity';
 
 interface IProps {
   activity: IActivity;
-  setEdit: (edit: boolean) => void;
+  setEditForm: (edit: boolean) => void;
   setSelectedActivity: (activity: IActivity | null) => void;
 }
 
-export const ActivityDetails: React.FC<IProps> = ({ activity, setEdit, setSelectedActivity }) => {
+export const ActivityDetails: React.FC<IProps> = ({ activity, setEditForm, setSelectedActivity }) => {
   return (
     <Card fluid>
       <Image src={`/assets/categoryImages/${activity.category}.jpg`} wrapped ui={false} />
@@ -27,7 +27,7 @@ export const ActivityDetails: React.FC<IProps> = ({ activity, setEdit, setSelect
             basic 
             color="blue" 
             content="Edit" 
-            onClick={() => setEdit(true)}  
+            onClick={() => setEditForm(true)}  
           />
           <Button 
             basic 

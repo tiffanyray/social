@@ -7,35 +7,39 @@ import { ActivityForm } from '../form/ActivityForm';
 
 interface IProps {
   activities: IActivity[];
+  createActivity: (activity: IActivity) => void;
   selectedActivity: IActivity | null;
-  edit: boolean;
+  editForm: boolean;
+  editActivity: (activity: IActivity) => void;
   selectActivity: (id: string) => void;
-  setEdit: (edit: boolean) => void;
+  setEditForm: (edit: boolean) => void;
   setSelectedActivity: (activity: IActivity | null) => void;
 }
 
-export const ActivityDashboard: React.FC<IProps> = ({ activities, selectActivity, selectedActivity, edit, setEdit, setSelectedActivity }) => {
+export const ActivityDashboard: React.FC<IProps> = ({ activities, createActivity, selectActivity, selectedActivity, editForm, editActivity, setEditForm, setSelectedActivity }) => {
   return (
     <Grid>
       <Grid.Column width={10}>
         <ActivityList 
           activities={activities} 
           selectActivity={selectActivity} 
-          setEdit={setEdit}
+          setEdit={setEditForm}
         />
       </Grid.Column>
       <Grid.Column width={6}>
-        {selectedActivity && !edit && (
+        {selectedActivity && !editForm && (
           <ActivityDetails 
             activity={selectedActivity} 
-            setEdit={setEdit}
+            setEditForm={setEditForm}
             setSelectedActivity={setSelectedActivity}
           />
         )}
-        {edit && (
+        {editForm && (
           <ActivityForm 
-            setEdit={setEdit} 
+            setEditForm={setEditForm} 
             activity={selectedActivity}
+            createActivity={createActivity}
+            editActivity={editActivity}
           />
         )}
       </Grid.Column>

@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { IActivity } from '../../../App/Models/activity';
-import { string } from 'prop-types';
+import { v4 as uuid } from 'uuid';
 
 interface IProps {
   activity: IActivity | null;
-  setEdit: (edit: boolean) => void;
+  setEditForm: (edit: boolean) => void;
+  createActivity: (activity: IActivity) => void;
+  editActivity: (activity: IActivity) => void;
 }
 
-export const ActivityForm: React.FC<IProps> = ({ setEdit, activity: initialActivity }) => {
+export const ActivityForm: React.FC<IProps> = ({ setEditForm, activity: initialActivity, createActivity, editActivity }) => {
   let [activity, setActivity] = useState<IActivity>(initialActivity || {
     id: '',
     title: '',
@@ -19,53 +21,68 @@ export const ActivityForm: React.FC<IProps> = ({ setEdit, activity: initialActiv
     venue: ''
   });
 
-  const onChange = (type: string) => (event: any) => {
-    setActivity({ ...activity, [type]: event.target.value })
+  const onChange = (type: string) => (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setActivity({ ...activity, [type]: event.currentTarget.value })
   };
 
-  console.log(activity);
+  const onSubmit = () => {
+    if (activity.id.length === 0) {
+      let newActivity = {
+        ...activity,
+        id: uuid()
+      }
+      createActivity(newActivity);
+    } else {
+      editActivity(activity);
+    }
+  };
 
   return (
     <Segment clearing>
-      <Form>
-        <Form.Input 
+      <Form onSubmit={onSubmit}>
+        <Form.Input
           value={activity.title}
           placeholder="Title"
           onChange={onChange('title')}
         />
-        <Form.TextArea 
+        <Form.TextArea
           value={activity.description}
-          placeholder="Description" 
-          rows={2} 
+          placeholder="Description"
+          rows={2}
+          onChange={onChange('description')}
         />
         <Form.Input
           value={activity.category}
           placeholder="Category"
+          onChange={onChange('category')}
         />
         <Form.Input
           value={activity.date}
-          type="date" 
-          placeholder="Date" 
+          type="date"
+          placeholder="Date"
+          onChange={onChange('date')}
         />
         <Form.Input
           value={activity.city}
-          placeholder="City" 
+          placeholder="City"
+          onChange={onChange('city')}
         />
-        <Form.Input 
+        <Form.Input
           value={activity.venue}
-          placeholder="Venue" 
+          placeholder="Venue"
+          onChange={onChange('venue')}
         />
-        <Button 
-          floated="right" 
-          type="button" 
-          content="Cancel" 
-          onClick={() => setEdit(false)}
+        <Button
+          floated="right"
+          type="button"
+          content="Cancel"
+          onClick={() => setEditForm(false)}
         />
-        <Button 
-          floated="right" 
-          positive 
-          type="submit" 
-          content="Submit" 
+        <Button
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
         />
       </Form>
     </Segment>

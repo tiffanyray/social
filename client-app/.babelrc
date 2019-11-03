@@ -1,18 +1,10 @@
 {
   "plugins": [
-    "@babel/presets-react",
-    "@babel/plugin-proposal-optional-chaining",
     "@babel/plugin-proposal-optional-chaining"
   ],
   "presets": [
     [
-      "@babel/preset-env", 
-      {
-        "targets": {
-          "chrome": "58",
-          "ie": "11"
-        }
-      }
+      "react-app"
     ]
   ]
 }
