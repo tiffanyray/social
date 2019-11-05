@@ -24,11 +24,15 @@ export const ActivityForm: React.FC<IProps> = ({ setEditForm, activity: initialA
   let [activity, setActivity] = useState<IActivity>(initialActivity || blankActivity);
 
   useEffect(() => {
-    setActivity(initialActivity || blankActivity);
-  }, [initialActivity, blankActivity]);
+    if (initialActivity === null) {
+      setActivity(blankActivity);
+    } else {
+      setActivity(initialActivity);
+    }
+  }, [initialActivity]);
 
   const onChange = (type: string) => (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setActivity({ ...activity, [type]: event.currentTarget.value })
+    setActivity({ ...activity, [type]: event.currentTarget.value });
   };
 
   const onSubmit = () => {
