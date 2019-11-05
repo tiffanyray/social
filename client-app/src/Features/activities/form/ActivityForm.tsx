@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { IActivity } from '../../../App/Models/activity';
 import { v4 as uuid } from 'uuid';
@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export const ActivityForm: React.FC<IProps> = ({ setEditForm, activity: initialActivity, createActivity, editActivity }) => {
-  let [activity, setActivity] = useState<IActivity>(initialActivity || {
+  const blankActivity = {
     id: '',
     title: '',
     description: '',
@@ -19,7 +19,13 @@ export const ActivityForm: React.FC<IProps> = ({ setEditForm, activity: initialA
     date: '',
     city: '',
     venue: ''
-  });
+  }
+  
+  let [activity, setActivity] = useState<IActivity>(initialActivity || blankActivity);
+
+  useEffect(() => {
+    setActivity(initialActivity || blankActivity);
+  }, [initialActivity, blankActivity]);
 
   const onChange = (type: string) => (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setActivity({ ...activity, [type]: event.currentTarget.value })
@@ -58,7 +64,7 @@ export const ActivityForm: React.FC<IProps> = ({ setEditForm, activity: initialA
         />
         <Form.Input
           value={activity.date}
-          type="date"
+          type="datetime-local"
           placeholder="Date"
           onChange={onChange('date')}
         />

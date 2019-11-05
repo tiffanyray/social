@@ -11,17 +11,19 @@ interface IProps {
   selectedActivity: IActivity | null;
   editForm: boolean;
   editActivity: (activity: IActivity) => void;
+  deleteActivity: (id: string) => void;
   selectActivity: (id: string) => void;
   setEditForm: (edit: boolean) => void;
   setSelectedActivity: (activity: IActivity | null) => void;
 }
 
-export const ActivityDashboard: React.FC<IProps> = ({ activities, createActivity, selectActivity, selectedActivity, editForm, editActivity, setEditForm, setSelectedActivity }) => {
+export const ActivityDashboard: React.FC<IProps> = ({ activities, createActivity, deleteActivity, selectActivity, selectedActivity, editForm, editActivity, setEditForm, setSelectedActivity }) => {
   return (
     <Grid>
       <Grid.Column width={10}>
         <ActivityList 
           activities={activities} 
+          deleteActivity={deleteActivity}
           selectActivity={selectActivity} 
           setEdit={setEditForm}
         />
