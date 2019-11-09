@@ -7,11 +7,10 @@ using Persistence;
 
 namespace Application.Activities
 {
-    public class Post
+    public class Create
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
             public string Title { get; set; }
             public string Description { get; set; }
             public string Category { get; set; }
@@ -33,7 +32,6 @@ namespace Application.Activities
       {
         var activity = new Activity
         {
-            Id = request.Id,
             Title = request.Title,
             Description = request.Description,
             Category = request.Category,

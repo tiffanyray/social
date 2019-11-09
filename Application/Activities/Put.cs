@@ -6,7 +6,7 @@ using Persistence;
 
 namespace Application.Activities
 {
-    public class Put
+    public class UpdateActivity
     {
         public class Command: IRequest
         {

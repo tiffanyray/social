@@ -8,9 +8,16 @@ interface IProps {
   setEditForm: (edit: boolean) => void;
   createActivity: (activity: IActivity) => void;
   editActivity: (activity: IActivity) => void;
+  submitting: boolean;
 }
 
-export const ActivityForm: React.FC<IProps> = ({ setEditForm, activity: initialActivity, createActivity, editActivity }) => {
+export const ActivityForm: React.FC<IProps> = ({
+  setEditForm,
+  activity: initialActivity,
+  createActivity,
+  editActivity,
+  submitting
+}) => {
   const blankActivity = {
     id: '',
     title: '',
@@ -20,7 +27,7 @@ export const ActivityForm: React.FC<IProps> = ({ setEditForm, activity: initialA
     city: '',
     venue: ''
   }
-  
+
   let [activity, setActivity] = useState<IActivity>(initialActivity || blankActivity);
 
   useEffect(() => {
@@ -93,6 +100,7 @@ export const ActivityForm: React.FC<IProps> = ({ setEditForm, activity: initialA
           positive
           type="submit"
           content="Submit"
+          loading={submitting}
         />
       </Form>
     </Segment>
