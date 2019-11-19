@@ -1,7 +1,9 @@
 import React, { SyntheticEvent, useContext } from 'react';
-import { Item, Button, Label, Segment } from 'semantic-ui-react';
-import { IActivity } from '../../../App/Models/activity';
+import {
+  Item, Button, Label, Segment,
+} from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
+import { IActivity } from '../../../App/Models/activity';
 import ActivityStore from '../../../App/Stores/activityStore';
 
 interface IProps {
@@ -13,28 +15,33 @@ interface IProps {
 const ActivityList: React.FC<IProps> = ({
   deleteActivity,
   submitting,
-  target
+  target,
 }) => {
-  let activityStore = useContext(ActivityStore);
+  const activityStore = useContext(ActivityStore);
   const { activities, selectActivity } = activityStore;
 
   return (
-    <Segment clearing >
+    <Segment clearing>
       <Item.Group divided>
 
-        {activities.map(activity => (
+        {activities.map((activity) => (
           <Item key={activity.id}>
             <Item.Content>
-              <Item.Header as='a'>{activity.title}</Item.Header>
+              <Item.Header as="a">{activity.title}</Item.Header>
               <Item.Meta>{activity.date}</Item.Meta>
               <Item.Description>
                 <div>{activity.description}</div>
-                <div>{activity.city}, {activity.venue}</div>
+                <div>
+                  {activity.city}
+,
+                  {' '}
+                  {activity.venue}
+                </div>
               </Item.Description>
               <Item.Extra>
                 <Button
                   onClick={(event) => {
-                    deleteActivity(activity.id, event)
+                    deleteActivity(activity.id, event);
                   }}
                   floated="right"
                   content="Delete"
@@ -44,7 +51,7 @@ const ActivityList: React.FC<IProps> = ({
                 />
                 <Button
                   onClick={() => {
-                    selectActivity(activity.id)
+                    selectActivity(activity.id);
                   }}
                   floated="right"
                   content="View"
@@ -58,7 +65,7 @@ const ActivityList: React.FC<IProps> = ({
 
       </Item.Group>
     </Segment>
-  )
+  );
 };
 
 export default observer(ActivityList);

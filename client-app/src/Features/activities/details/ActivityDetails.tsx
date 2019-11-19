@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Card, Image, Button } from 'semantic-ui-react';
+import { observer } from 'mobx-react-lite';
 import { IActivity } from '../../../App/Models/activity';
 import ActivityStore from '../../../App/Stores/activityStore';
-import { observer } from 'mobx-react-lite';
 
 interface IProps {
   setEditForm: (edit: boolean) => void;
@@ -10,7 +10,7 @@ interface IProps {
 }
 
 const ActivityDetails: React.FC<IProps> = ({ setEditForm, setSelectedActivity }) => {
-  let activityStore = useContext(ActivityStore);
+  const activityStore = useContext(ActivityStore);
   const { selectedActivity: activity } = activityStore;
 
   return (
@@ -23,26 +23,26 @@ const ActivityDetails: React.FC<IProps> = ({ setEditForm, setSelectedActivity })
         </Card.Meta>
         <Card.Description>
           {activity!.description}
-      </Card.Description>
+        </Card.Description>
       </Card.Content>
       <Card.Content extra>
         <Button.Group width={2}>
-          <Button 
-            basic 
-            color="blue" 
-            content="Edit" 
-            onClick={() => setEditForm(true)}  
+          <Button
+            basic
+            color="blue"
+            content="Edit"
+            onClick={() => setEditForm(true)}
           />
-          <Button 
-            basic 
-            color="grey" 
-            content="Close" 
+          <Button
+            basic
+            color="grey"
+            content="Close"
             onClick={() => setSelectedActivity(null)}
           />
         </Button.Group>
       </Card.Content>
     </Card>
-  )
+  );
 };
 
 export default observer(ActivityDetails);

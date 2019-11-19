@@ -1,10 +1,10 @@
 import React, { SyntheticEvent, useContext } from 'react';
-import ActivityList from './ActivityList';
 import { Grid } from 'semantic-ui-react';
+import { observer } from 'mobx-react-lite';
+import ActivityList from './ActivityList';
 import { IActivity } from '../../../App/Models/activity';
 import ActivityDetails from '../details/ActivityDetails';
 import { ActivityForm } from '../form/ActivityForm';
-import { observer } from 'mobx-react-lite';
 import ActivityStore from '../../../App/Stores/activityStore';
 
 interface IProps {
@@ -29,10 +29,10 @@ const ActivityDashboard: React.FC<IProps> = ({
   setSelectedActivity,
   setEditForm,
   submitting,
-  target
+  target,
 }) => {
-  let activityStore = useContext(ActivityStore);
-  let { editForm, selectedActivity } = activityStore;
+  const activityStore = useContext(ActivityStore);
+  const { editForm, selectedActivity } = activityStore;
 
   return (
     <Grid>
@@ -61,7 +61,7 @@ const ActivityDashboard: React.FC<IProps> = ({
         )}
       </Grid.Column>
     </Grid>
-  )
+  );
 };
 
 export default observer(ActivityDashboard);

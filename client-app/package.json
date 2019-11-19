@@ -59,7 +59,7 @@
     "start": "node scripts/start.js",
     "build": "webpack",
     "test": "node scripts/test.js",
-    "pretest": "eslint --ignore-path .gitignore ."
+    "pretest": "eslint --ext .js,.ts,.tsx --ignore-path .gitignore . --ignore-pattern node_modules/ --fix"
   },
   "eslintConfig": {
     "extends": "react-app"

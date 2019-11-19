@@ -23,5 +23,5 @@
         "@typescript-eslint"
     ],
     "rules": {
-    }
+      }
 }

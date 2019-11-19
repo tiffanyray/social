@@ -1,101 +1,102 @@
-const path = require('path'),
-  webpack = require('webpack'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  MiniCssExtractPlugin = require('mini-css-extract-plugin'),
-  fs = require('fs');
-  useTypeScript = fs.existsSync(path.appTsConfig);
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const fs = require('fs');
+
+useTypeScript = fs.existsSync(path.appTsConfig);
 
 module.exports = {
   entry: {
     app: ['./src/index.tsx'],
-    vendor: ['react', 'react-dom']
+    vendor: ['react', 'react-dom'],
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].bundle.js'
+    filename: 'js/[name].bundle.js',
   },
   devtool: 'soure-map',
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx', '.scss']
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx', '.scss'],
   },
   module: {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        loader: "ts-loader"
+        loader: 'ts-loader',
       },
       {
-        enforce: "pre",
+        enforce: 'pre',
         test: /\.jsx?$/,
-        loader: "source-map-loader"
+        loader: 'source-map-loader',
       },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader'
-          }
-        ]
+            loader: 'babel-loader',
+          },
+        ],
       },
       {
         test: /\.(png|jpe?g|gif|svg|ttf|woff|woff2|eot)$/i,
         use: [
           {
-            loader: "file-loader",
-          }
-        ]
+            loader: 'file-loader',
+          },
+        ],
       },
       {
         test: /\.s(a|c)ss$/,
         exclude: /\.module.(s(a|c)ss)$/,
         loader: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
-              sourceMap: true
-            }
+              sourceMap: true,
+            },
           },
           {
-            loader: "css-loader"
-          }
-        ]
+            loader: 'css-loader',
+          },
+        ],
       },
       {
         test: /\.module\.s(a|c)ss$/,
         loader: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
               sourceMap: true,
-              singleton: true
-            }
+              singleton: true,
+            },
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               modules: {
-                localIdentName: "[path][name]__[local]--[hash:base64:5]"
-              }
-            }
-          }
-        ]
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
-    ]
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: path.resolve(__dirname, "public/index.html") }),
+    new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'public/index.html') }),
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
-      filename: "[name].css"
+      filename: '[name].css',
     }),
     // TypeScript type checking
-    useTypeScript &&
-    new ForkTsCheckerWebpackPlugin({
+    useTypeScript
+    && new ForkTsCheckerWebpackPlugin({
       typescript: resolve.sync('typescript', {
         basedir: path.appNodeModules,
       }),
@@ -133,4 +134,4 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty',
   },
-}
+};

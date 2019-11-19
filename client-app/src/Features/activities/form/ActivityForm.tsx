@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
-import { IActivity } from '../../../App/Models/activity';
 import { v4 as uuid } from 'uuid';
+import { IActivity } from '../../../App/Models/activity';
 
 interface IProps {
   selectedActivity: IActivity | null;
@@ -16,7 +16,7 @@ export const ActivityForm: React.FC<IProps> = ({
   selectedActivity: initialActivity,
   createActivity,
   editActivity,
-  submitting
+  submitting,
 }) => {
   const blankActivity = {
     id: '',
@@ -25,10 +25,10 @@ export const ActivityForm: React.FC<IProps> = ({
     category: '',
     date: '',
     city: '',
-    venue: ''
-  }
+    venue: '',
+  };
 
-  let [activity, setActivity] = useState<IActivity>(initialActivity || blankActivity);
+  const [activity, setActivity] = useState<IActivity>(initialActivity || blankActivity);
 
   useEffect(() => {
     if (initialActivity === null) {
@@ -44,10 +44,10 @@ export const ActivityForm: React.FC<IProps> = ({
 
   const onSubmit = () => {
     if (activity.id.length === 0) {
-      let newActivity = {
+      const newActivity = {
         ...activity,
-        id: uuid()
-      }
+        id: uuid(),
+      };
       createActivity(newActivity);
     } else {
       editActivity(activity);
@@ -104,5 +104,5 @@ export const ActivityForm: React.FC<IProps> = ({
         />
       </Form>
     </Segment>
-  )
+  );
 };
