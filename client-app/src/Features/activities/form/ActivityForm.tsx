@@ -4,7 +4,7 @@ import { IActivity } from '../../../App/Models/activity';
 import { v4 as uuid } from 'uuid';
 
 interface IProps {
-  activity: IActivity | null;
+  selectedActivity: IActivity | null;
   setEditForm: (edit: boolean) => void;
   createActivity: (activity: IActivity) => void;
   editActivity: (activity: IActivity) => void;
@@ -13,7 +13,7 @@ interface IProps {
 
 export const ActivityForm: React.FC<IProps> = ({
   setEditForm,
-  activity: initialActivity,
+  selectedActivity: initialActivity,
   createActivity,
   editActivity,
   submitting

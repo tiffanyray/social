@@ -1,13 +1,17 @@
-import React, { useEffect, useState, SyntheticEvent } from 'react';
+import React, { useContext, useEffect, useState, SyntheticEvent } from 'react';
 import { Header } from '../Features/Navigation/Header';
 import { IActivity } from './Models/activity';
 import { Container } from 'semantic-ui-react';
-import { ActivityDashboard } from '../Features/activities/dashboard';
+import ActivityDashboard from '../Features/activities/dashboard/ActivityDashboard';
 import { LoadingComponent } from '../App/Api/Layout/LoadingComponent';
 import agent from './Api/agent';
+import ActivityStore from './Stores/activityStore';
+import { observer } from 'mobx-react-lite';
 
 
 const App = () => {
+  let activityStore = useContext(ActivityStore);
+
   let [activities, setActivities] = useState<IActivity[]>([]);
   let [selectedActivity, setSelectedActivity] = useState<IActivity | null>(null);
   let [editForm, setEditForm] = useState<boolean>(false);
@@ -66,35 +70,24 @@ const App = () => {
   };
 
   useEffect(() => {
-    agent.Activities.list()
-      .then(response => {
-        let activities: IActivity[] = [];
-        response.forEach(activity => {
-          activity.date = activity.date.split('.')[0];
-          activities.push(activity);
-        })
-        setActivities(activities);
-      })
-      .then(() => setLoading(false))
-      .catch(err => console.error(err));
-  }, []);
+    activityStore.loadActivities();
+  }, [activityStore]);
 
-  if (loading) return <LoadingComponent content="Loading Activities..." inverted />
+  if (activityStore.loadingInitial) return <LoadingComponent content="Loading Activities..." inverted />
 
   return (
     <div>
       <Header openForm={openCreateForm} />
       <Container style={{ marginTop: '6rem' }}>
         <ActivityDashboard
-          activities={activities}
+          activities={activityStore.activities}
           createActivity={createActivity}
-          editForm={editForm}
           editActivity={editActivity}
           deleteActivity={deleteActivity}
           selectActivity={selectActivity}
           selectedActivity={selectedActivity}
-          setEditForm={setEditForm}
           setSelectedActivity={setSelectedActivity}
+          setEditForm={setEditForm}
           submitting={submitting}
           target={target}
         />
@@ -103,4 +96,4 @@ const App = () => {
   )
 };
 
-export default App;
+export default observer(App);
