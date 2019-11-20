@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Menu, Container, Button } from 'semantic-ui-react';
+import ActivityStore from '../../App/Stores/activityStore';
+import { observer } from 'mobx-react-lite';
 
-interface IProps {
-  openForm: () => void;
-}
+const Header: React.FC = () => {
+  const activityStore = useContext(ActivityStore);
 
-export const Header: React.FC<IProps> = ({ openForm }) => (
-  <Menu fixed="top" inverted>
+  return <Menu fixed="top" inverted>
     <Container>
       <Menu.Item name="Social" />
       <Menu.Item name="Activities" />
@@ -14,9 +14,11 @@ export const Header: React.FC<IProps> = ({ openForm }) => (
         <Button
           positive
           content="Create Activity"
-          onClick={openForm}
+          onClick={activityStore.openCreateForm}
         />
       </Menu.Item>
     </Container>
   </Menu>
-);
+};
+
+export default observer(Header);

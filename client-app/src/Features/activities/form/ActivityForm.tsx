@@ -1,42 +1,34 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent, useContext } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
 import { IActivity } from '../../../App/Models/activity';
+import ActivityStore from '../../../App/Stores/activityStore';
+import { observer } from 'mobx-react-lite';
 
 interface IProps {
-  selectedActivity: IActivity | null;
-  setEditForm: (edit: boolean) => void;
-  createActivity: (activity: IActivity) => void;
-  editActivity: (activity: IActivity) => void;
-  submitting: boolean;
 }
 
-export const ActivityForm: React.FC<IProps> = ({
-  setEditForm,
-  selectedActivity: initialActivity,
-  createActivity,
-  editActivity,
-  submitting,
-}) => {
-  const blankActivity = {
-    id: '',
-    title: '',
-    description: '',
-    category: '',
-    date: '',
-    city: '',
-    venue: '',
-  };
-
-  const [activity, setActivity] = useState<IActivity>(initialActivity || blankActivity);
-
-  useEffect(() => {
-    if (initialActivity === null) {
-      setActivity(blankActivity);
+const ActivityForm: React.FC<IProps> = () => {
+  const initializeActivity = () => {
+    if (selectedActivity !== undefined) {
+      return selectedActivity;
     } else {
-      setActivity(initialActivity);
+      return {
+        id: '',
+        title: '',
+        description: '',
+        category: '',
+        date: '',
+        city: '',
+        venue: '',
+      }
     }
-  }, [initialActivity]);
+  }
+
+  const activityStore = useContext(ActivityStore);
+  const { createActivity, closeForm, editActiivty, selectedActivity, submitting } = activityStore;
+
+  const [activity, setActivity] = useState<IActivity>(initializeActivity);
 
   const onChange = (type: string) => (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setActivity({ ...activity, [type]: event.currentTarget.value });
@@ -50,7 +42,7 @@ export const ActivityForm: React.FC<IProps> = ({
       };
       createActivity(newActivity);
     } else {
-      editActivity(activity);
+      editActiivty(activity);
     }
   };
 
@@ -93,7 +85,7 @@ export const ActivityForm: React.FC<IProps> = ({
           floated="right"
           type="button"
           content="Cancel"
-          onClick={() => setEditForm(false)}
+          onClick={closeForm}
         />
         <Button
           floated="right"
@@ -106,3 +98,5 @@ export const ActivityForm: React.FC<IProps> = ({
     </Segment>
   );
 };
+
+export default observer(ActivityForm);

@@ -5,13 +5,11 @@ import { IActivity } from '../../../App/Models/activity';
 import ActivityStore from '../../../App/Stores/activityStore';
 
 interface IProps {
-  setEditForm: (edit: boolean) => void;
-  setSelectedActivity: (activity: IActivity | null) => void;
 }
 
-const ActivityDetails: React.FC<IProps> = ({ setEditForm, setSelectedActivity }) => {
+const ActivityDetails: React.FC<IProps> = () => {
   const activityStore = useContext(ActivityStore);
-  const { selectedActivity: activity } = activityStore;
+  const { closeForm, selectedActivity: activity, openEditForm } = activityStore;
 
   return (
     <Card fluid>
@@ -31,13 +29,13 @@ const ActivityDetails: React.FC<IProps> = ({ setEditForm, setSelectedActivity })
             basic
             color="blue"
             content="Edit"
-            onClick={() => setEditForm(true)}
+            onClick={() => openEditForm(activity!.id)}
           />
           <Button
             basic
             color="grey"
             content="Close"
-            onClick={() => setSelectedActivity(null)}
+            onClick={closeForm}
           />
         </Button.Group>
       </Card.Content>
