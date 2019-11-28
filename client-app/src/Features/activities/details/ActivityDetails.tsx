@@ -1,15 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Card, Image, Button } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import { IActivity } from '../../../App/Models/activity';
+import LoadingInitial from '../../../App/Api/Layout/LoadingComponent';
 import ActivityStore from '../../../App/Stores/activityStore';
+import { RouteComponentProps, Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 
-interface IProps {
+interface DetailParams {
+  id: string
 }
 
-const ActivityDetails: React.FC<IProps> = () => {
+const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({ history, match }) => {
   const activityStore = useContext(ActivityStore);
-  const { closeForm, selectedActivity: activity, openEditForm } = activityStore;
+  const { closeForm, activity, openEditForm, loadActivity, loadingInitial } = activityStore;
+
+  useEffect(() => {
+    loadActivity(match.params.id);
+  }, [loadActivity]);
+
+  if (loadingInitial || !activity) return <LoadingInitial content="Loading..." />
 
   return (
     <Card fluid>
@@ -29,13 +38,14 @@ const ActivityDetails: React.FC<IProps> = () => {
             basic
             color="blue"
             content="Edit"
-            onClick={() => openEditForm(activity!.id)}
+            as={Link}
+            to={`/manage/${activity.id}`}
           />
           <Button
             basic
             color="grey"
-            content="Close"
-            onClick={closeForm}
+            content="Cancel"
+            onClick={() => history.push('/activities')}
           />
         </Button.Group>
       </Card.Content>

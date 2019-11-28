@@ -1,40 +1,19 @@
 import React, {
-  useContext, useEffect, useState, SyntheticEvent,
+  useContext, useEffect
 } from 'react';
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import Header from '../Features/Navigation/Header';
-import { IActivity } from './Models/activity';
-import ActivityDashboard from '../Features/activities/dashboard/ActivityDashboard';
+import ActivityStore from '../App/Stores/activityStore';
+import Header from '../features/Navigation/Header';
+import ActivityDashboard from '../features/activities/dashboard/ActivityDashboard';
 import LoadingComponent from '../App/Api/Layout/LoadingComponent';
-import agent from './Api/agent';
-import ActivityStore from './Stores/activityStore';
+import { Route } from 'react-router-dom';
+import HomePage from '../features/home/HomePage';
+import ActivityForm from '../features/activities/form/ActivityForm';
+import ActivityDetails from '../features/activities/details/ActivityDetails';
 
 const App = () => {
   const activityStore = useContext(ActivityStore);
-
-  const [activities, setActivities] = useState<IActivity[]>([]);
-  const [selectedActivity, setSelectedActivity] = useState<IActivity | null>(
-    null,
-  );
-  const [submitting, setSubmitting] = useState<boolean>(false);
-  const [target, setTarget] = useState('');
-
-  const deleteActivity = (
-    id: string,
-    event: SyntheticEvent<HTMLButtonElement>,
-  ) => {
-    setSubmitting(true);
-    setTarget(event.currentTarget.name);
-    agent.Activities.delete(id)
-      .then(() => {
-        setActivities([...activities.filter((a) => a.id !== id)]);
-      })
-      .then(() => setSubmitting(false))
-      .catch((err) => {
-        console.error(err);
-      });
-  };
 
   useEffect(() => {
     activityStore.loadActivities();
@@ -46,12 +25,10 @@ const App = () => {
     <div>
       <Header />
       <Container style={{ marginTop: '6rem' }}>
-        <ActivityDashboard
-          deleteActivity={deleteActivity}
-          selectedActivity={selectedActivity}
-          submitting={submitting}
-          target={target}
-        />
+        <Route path='/' component={HomePage} exact />
+        <Route path='/activities' component={ActivityDashboard} exact />
+        <Route path='/activities/:id' component={ActivityDetails} />
+        <Route path={['/createForm', '/manage/:id']} component={ActivityForm} />
       </Container>
     </div>
   );

@@ -1,34 +1,30 @@
-import React, { useState, useEffect, FormEvent, useContext } from 'react';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
 import { IActivity } from '../../../App/Models/activity';
 import ActivityStore from '../../../App/Stores/activityStore';
 import { observer } from 'mobx-react-lite';
+import { RouteComponentProps } from 'react-router';
 
-interface IProps {
+interface DetailProps {
+  id: string;
 }
 
-const ActivityForm: React.FC<IProps> = () => {
-  const initializeActivity = () => {
-    if (selectedActivity !== undefined) {
-      return selectedActivity;
-    } else {
-      return {
-        id: '',
-        title: '',
-        description: '',
-        category: '',
-        date: '',
-        city: '',
-        venue: '',
-      }
-    }
-  }
+const ActivityForm: React.FC<RouteComponentProps<DetailProps>> = ({ match }) => {
+  const blankActivity = {
+    id: '',
+    title: '',
+    description: '',
+    category: '',
+    date: '',
+    city: '',
+    venue: '',
+  };
 
   const activityStore = useContext(ActivityStore);
-  const { createActivity, closeForm, editActiivty, selectedActivity, submitting } = activityStore;
+  const { createActivity, clearActivity, closeForm, editActivty, activity: selectedActivity, submitting, loadActivity } = activityStore;
 
-  const [activity, setActivity] = useState<IActivity>(initializeActivity);
+  const [activity, setActivity] = useState<IActivity>(blankActivity);
 
   const onChange = (type: string) => (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setActivity({ ...activity, [type]: event.currentTarget.value });
@@ -42,9 +38,22 @@ const ActivityForm: React.FC<IProps> = () => {
       };
       createActivity(newActivity);
     } else {
-      editActiivty(activity);
+      editActivty(activity);
     }
   };
+
+  useEffect(() => {
+    if (match.params.id) {
+      loadActivity(match.params.id)
+        .then(() => {
+          selectedActivity && setActivity(selectedActivity);
+        });
+    }
+
+    return () => {
+      clearActivity();
+    };
+  }, [selectedActivity, clearActivity, match.params.id, selectedActivity]);
 
   return (
     <Segment clearing>

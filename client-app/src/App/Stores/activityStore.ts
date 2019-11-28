@@ -1,7 +1,9 @@
-import { observable, action, computed } from 'mobx';
-import { createContext } from 'react';
+import { observable, action, computed, configure, runInAction } from 'mobx';
+import { createContext, SyntheticEvent } from 'react';
 import { IActivity } from '../Models/activity';
 import agent from '../Api/agent';
+
+configure({ enforceActions: 'always' });
 
 class ActivityStore {
   @observable activityRegistry = new Map();
@@ -10,11 +12,13 @@ class ActivityStore {
 
   @observable loadingInitial = false;
 
-  @observable selectedActivity: IActivity | undefined;
+  @observable activity: IActivity | null = null;
 
   @observable editForm = false;
 
   @observable submitting = false;
+
+  @observable target = '';
 
   @computed get activitiesByDate() {
     return Array.from(this.activityRegistry.values())
@@ -26,62 +30,122 @@ class ActivityStore {
 
     try {
       const activities = await agent.Activities.list();
-      activities.forEach((activity) => {
-        activity.date = activity.date.split('.')[0];
-        this.activityRegistry.set(activity.id, activity);
+      runInAction('loading activities', () => {
+        activities.forEach((activity) => {
+          activity.date = activity.date.split('.')[0];
+          this.activityRegistry.set(activity.id, activity);
+        });
+        this.loadingInitial = false;
       });
-      this.loadingInitial = false;
     } catch (error) {
       console.error(error);
-      this.loadingInitial = false;
+      runInAction('load activities error', () => {
+        this.loadingInitial = false;
+      });
     }
   };
 
-  @action selectActivity = (id: string) => {
-    this.selectedActivity = this.activityRegistry.get(id);
-    this.editForm = false;
+  @action loadActivity = async (id: string) => {
+    let activity = this.getActivity(id);
+    if (activity) {
+      this.activity = activity;
+    } else {
+      this.loadingInitial = true;
+      try {
+        activity = await agent.Activities.details(id);
+        runInAction('gtting activity', () => {
+          this.activity = activity;
+          this.loadingInitial = false;
+        })
+      } catch (error) {
+        console.error(error);
+        runInAction('get activity error', () => {
+          this.loadingInitial = false;
+        })
+      }
+    }
+  };
+
+  getActivity = (id: string) => {
+    return this.activityRegistry.get(id);
   };
 
   @action createActivity = async (activity: IActivity) => {
     this.submitting = true;
     try {
       await agent.Activities.create(activity);
-      this.activityRegistry.set(activity.id, activity);
-      this.editForm = false;
-      this.submitting = false;
+      runInAction('create load', () => {
+        this.activityRegistry.set(activity.id, activity);
+        this.editForm = false;
+        this.submitting = false;
+      });
     } catch (error) {
       console.error(error);
-      this.submitting = false;
+      runInAction('create load error', () => {
+        this.submitting = false;
+      })
     }
   }
 
-  @action editActiivty = async (activity: IActivity) => {
+  @action editActivty = async (activity: IActivity) => {
     this.submitting = true;
     try {
       await agent.Activities.update(activity);
-      this.activityRegistry.set(activity.id, activity);
-      this.submitting = false;
-      this.editForm = false;
-      this.selectedActivity = activity;
+      runInAction('edit load', () => {
+        this.activityRegistry.set(activity.id, activity);
+        this.submitting = false;
+        this.editForm = false;
+        this.activity = activity;
+      })
     } catch (error) {
       console.error(error);
-      this.submitting = false;
+      runInAction('edit load error', () => {
+        this.submitting = false;
+      })
     }
+  };
+
+  @action deleteActivity = async (id: string, event: SyntheticEvent<HTMLButtonElement>) => {
+    this.submitting = true;
+    this.target = event.currentTarget.name;
+    try {
+      await agent.Activities.delete(id);
+      runInAction('delete loading', () => {
+        this.activityRegistry.delete(id);
+        this.submitting = false;
+        this.target = '';
+      })
+    } catch (error) {
+      console.error(error);
+      runInAction('delete loading error', () => {
+        this.submitting = false;
+        this.target = '';
+      })
+    }
+  };
+
+  @action clearActivity = () => {
+    this.activity = null;
+  };
+
+  @action selectActivity = (id: string) => {
+    this.activity = this.activityRegistry.get(id);
+    this.editForm = false;
   };
 
   @action openCreateForm = () => {
     this.editForm = true;
-    this.selectedActivity = undefined;
+    this.activity = null;
   }
 
   @action openEditForm = (id: string) => {
     this.editForm = true;
-    this.selectedActivity = this.activityRegistry.get(id);
+    this.activity = this.activityRegistry.get(id);
   };
 
   @action closeForm = () => {
     this.editForm = false;
-    this.selectedActivity = undefined;
+    this.activity = null;
   };
 }
 
