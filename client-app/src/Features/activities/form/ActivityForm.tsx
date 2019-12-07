@@ -1,16 +1,18 @@
-import React, { FormEvent, useContext, useEffect, useState } from 'react';
+import React, {
+  FormEvent, useContext, useEffect, useState,
+} from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
-import { IActivity } from '../../../App/Models/activity';
-import ActivityStore from '../../../App/Stores/activityStore';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router';
+import { IActivity } from '../../../App/Models/activity';
+import ActivityStore from '../../../App/Stores/activityStore';
 
 interface DetailProps {
   id: string;
 }
 
-const ActivityForm: React.FC<RouteComponentProps<DetailProps>> = ({ match }) => {
+const ActivityForm: React.FC<RouteComponentProps<DetailProps>> = ({ match, history }) => {
   const blankActivity = {
     id: '',
     title: '',
@@ -22,7 +24,14 @@ const ActivityForm: React.FC<RouteComponentProps<DetailProps>> = ({ match }) => 
   };
 
   const activityStore = useContext(ActivityStore);
-  const { createActivity, clearActivity, closeForm, editActivty, activity: selectedActivity, submitting, loadActivity } = activityStore;
+  const {
+    createActivity,
+    clearActivity,
+    editActivty,
+    activity: selectedActivity,
+    submitting,
+    loadActivity,
+  } = activityStore;
 
   const [activity, setActivity] = useState<IActivity>(blankActivity);
 
@@ -36,17 +45,19 @@ const ActivityForm: React.FC<RouteComponentProps<DetailProps>> = ({ match }) => 
         ...activity,
         id: uuid(),
       };
-      createActivity(newActivity);
+      createActivity(newActivity)
+        .then(() => history.push(`/activities/${newActivity.id}`));
     } else {
-      editActivty(activity);
+      editActivty(activity)
+        .then(() => history.push(`/activities/${activity.id}`));
     }
   };
 
   useEffect(() => {
-    if (match.params.id) {
+    if (match.params.id && activity.id.length === 0) {
       loadActivity(match.params.id)
         .then(() => {
-          selectedActivity && setActivity(selectedActivity);
+          if (selectedActivity) setActivity(selectedActivity);
         });
     }
 
@@ -94,7 +105,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailProps>> = ({ match }) => 
           floated="right"
           type="button"
           content="Cancel"
-          onClick={closeForm}
+          onClick={() => history.push('/activities')}
         />
         <Button
           floated="right"

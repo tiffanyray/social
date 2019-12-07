@@ -1,4 +1,6 @@
-import { observable, action, computed, configure, runInAction } from 'mobx';
+import {
+  observable, action, computed, configure, runInAction,
+} from 'mobx';
 import { createContext, SyntheticEvent } from 'react';
 import { IActivity } from '../Models/activity';
 import agent from '../Api/agent';
@@ -8,13 +10,9 @@ configure({ enforceActions: 'always' });
 class ActivityStore {
   @observable activityRegistry = new Map();
 
-  @observable activities: IActivity[] = [];
-
   @observable loadingInitial = false;
 
   @observable activity: IActivity | null = null;
-
-  @observable editForm = false;
 
   @observable submitting = false;
 
@@ -32,6 +30,7 @@ class ActivityStore {
       const activities = await agent.Activities.list();
       runInAction('loading activities', () => {
         activities.forEach((activity) => {
+          /* eslint prefer-destructuring: 0 no-param-reassign: 0 */
           activity.date = activity.date.split('.')[0];
           this.activityRegistry.set(activity.id, activity);
         });
@@ -56,19 +55,17 @@ class ActivityStore {
         runInAction('gtting activity', () => {
           this.activity = activity;
           this.loadingInitial = false;
-        })
+        });
       } catch (error) {
         console.error(error);
         runInAction('get activity error', () => {
           this.loadingInitial = false;
-        })
+        });
       }
     }
   };
 
-  getActivity = (id: string) => {
-    return this.activityRegistry.get(id);
-  };
+  getActivity = (id: string) => this.activityRegistry.get(id);
 
   @action createActivity = async (activity: IActivity) => {
     this.submitting = true;
@@ -76,14 +73,13 @@ class ActivityStore {
       await agent.Activities.create(activity);
       runInAction('create load', () => {
         this.activityRegistry.set(activity.id, activity);
-        this.editForm = false;
         this.submitting = false;
       });
     } catch (error) {
       console.error(error);
       runInAction('create load error', () => {
         this.submitting = false;
-      })
+      });
     }
   }
 
@@ -94,14 +90,13 @@ class ActivityStore {
       runInAction('edit load', () => {
         this.activityRegistry.set(activity.id, activity);
         this.submitting = false;
-        this.editForm = false;
         this.activity = activity;
-      })
+      });
     } catch (error) {
       console.error(error);
       runInAction('edit load error', () => {
         this.submitting = false;
-      })
+      });
     }
   };
 
@@ -114,37 +109,17 @@ class ActivityStore {
         this.activityRegistry.delete(id);
         this.submitting = false;
         this.target = '';
-      })
+      });
     } catch (error) {
       console.error(error);
       runInAction('delete loading error', () => {
         this.submitting = false;
         this.target = '';
-      })
+      });
     }
   };
 
   @action clearActivity = () => {
-    this.activity = null;
-  };
-
-  @action selectActivity = (id: string) => {
-    this.activity = this.activityRegistry.get(id);
-    this.editForm = false;
-  };
-
-  @action openCreateForm = () => {
-    this.editForm = true;
-    this.activity = null;
-  }
-
-  @action openEditForm = (id: string) => {
-    this.editForm = true;
-    this.activity = this.activityRegistry.get(id);
-  };
-
-  @action closeForm = () => {
-    this.editForm = false;
     this.activity = null;
   };
 }

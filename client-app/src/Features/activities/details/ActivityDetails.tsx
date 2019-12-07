@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { Card, Image, Button } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import LoadingInitial from '../../../App/Api/Layout/LoadingComponent';
-import ActivityStore from '../../../App/Stores/activityStore';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+import LoadingInitial from '../../../App/Api/Layout/LoadingComponent';
+import ActivityStore from '../../../App/Stores/activityStore';
 
 interface DetailParams {
   id: string
@@ -12,13 +12,13 @@ interface DetailParams {
 
 const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({ history, match }) => {
   const activityStore = useContext(ActivityStore);
-  const { closeForm, activity, openEditForm, loadActivity, loadingInitial } = activityStore;
+  const { activity, loadActivity, loadingInitial } = activityStore;
 
   useEffect(() => {
     loadActivity(match.params.id);
   }, [loadActivity]);
 
-  if (loadingInitial || !activity) return <LoadingInitial content="Loading..." />
+  if (loadingInitial || !activity) return <LoadingInitial content="Loading..." />;
 
   return (
     <Card fluid>

@@ -16,7 +16,6 @@
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "dotenv": "6.2.0",
     "dotenv-expand": "5.1.0",
-    "eslint": "^6.6.0",
     "eslint-loader": "^3.0.2",
     "fibers": "^4.0.2",
     "fs-extra": "7.0.1",
@@ -39,6 +38,7 @@
     "react-app-polyfill": "^1.0.4",
     "react-dev-utils": "^9.1.0",
     "react-dom": "^16.10.2",
+    "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "resolve": "1.12.0",
     "resolve-url-loader": "3.1.0",
@@ -58,7 +58,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "webpack",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "browserslist": {
     "production": [
@@ -81,7 +82,15 @@
     "@babel/preset-react": "^7.6.3",
     "@types/react": "^16.9.5",
     "@types/react-dom": "^16.9.1",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.10.0",
     "css-loader": "^3.2.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "4.0.0-beta.5",
     "mini-css-extract-plugin": "^0.8.0",

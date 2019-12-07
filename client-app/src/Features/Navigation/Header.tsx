@@ -1,15 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Menu, Container, Button } from 'semantic-ui-react';
-import ActivityStore from '../../App/Stores/activityStore';
 import { observer } from 'mobx-react-lite';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-const Header: React.FC = () => {
-  const activityStore = useContext(ActivityStore);
-
-  return <Menu fixed="top" inverted>
+const Header: React.FC = () => (
+  <Menu fixed="top" inverted>
     <Container>
-      <Menu.Item name="Social"
+      <Menu.Item
+        name="Social"
         as={NavLink}
         to="/"
         exact
@@ -23,12 +21,12 @@ const Header: React.FC = () => {
         <Button
           positive
           content="Create Activity"
-          as={Link}
+          as={NavLink}
           to="/createForm"
         />
       </Menu.Item>
     </Container>
   </Menu>
-};
+);
 
 export default observer(Header);
