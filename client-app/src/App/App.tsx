@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { Route, withRouter, RouteComponentProps } from 'react-router-dom';
-import Header from '../features/Navigation/Header';
+import Header from '../features/navigation/Header';
 import ActivityDashboard from '../features/activities/dashboard/ActivityDashboard';
 import HomePage from '../features/home/HomePage';
 import ActivityForm from '../features/activities/form/ActivityForm';

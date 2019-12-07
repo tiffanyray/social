@@ -8,6 +8,10 @@ import agent from '../Api/agent';
 configure({ enforceActions: 'always' });
 
 class ActivityStore {
+  constructor() {
+    this.groupActivitiesByData = this.groupActivitiesByData.bind(this);
+  }
+
   @observable activityRegistry = new Map();
 
   @observable loadingInitial = false;
@@ -19,8 +23,15 @@ class ActivityStore {
   @observable target = '';
 
   @computed get activitiesByDate() {
-    return Array.from(this.activityRegistry.values())
-      .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+    return this.groupActivitiesByData(Array.from(this.activityRegistry.values()));
+  }
+
+  /* eslint class-methods-use-this: 0 */
+  groupActivitiesByData(activities: IActivity[]) {
+    const sortedActivities = activities.sort(
+      (a, b) => Date.parse(a.date) - Date.parse(b.date),
+    );
+    return sortedActivities;
   }
 
   @action loadActivities = async () => {
