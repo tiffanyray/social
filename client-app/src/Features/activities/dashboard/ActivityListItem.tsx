@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Item, Button, Label, Segment, Icon,
+  Item, Button, Segment, Icon,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
@@ -27,7 +27,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => (
       <br />
       <Icon name="marker" />
       {activity.venue}
-      {' , '}
+      {', '}
       {activity.city}
     </Segment>
     <Segment secondary>
