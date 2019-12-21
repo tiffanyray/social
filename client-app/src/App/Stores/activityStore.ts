@@ -35,7 +35,7 @@ class ActivityStore {
       const date = curr.date.split('T')[0];
       acc[date] = acc[date] ? [...acc[date], curr] : [curr];
       return acc;
-    }, {} as {[key: string]: IActivity[]}));
+    }, {} as { [key: string]: IActivity[] }));
   }
 
   @action loadActivities = async () => {
@@ -50,7 +50,6 @@ class ActivityStore {
           this.activityRegistry.set(activity.id, activity);
         });
         this.loadingInitial = false;
-        console.log('groupedByData', this.groupActivitiesByData(activities));
       });
     } catch (error) {
       console.error(error);

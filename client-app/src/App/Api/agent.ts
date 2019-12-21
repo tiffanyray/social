@@ -1,7 +1,29 @@
 import axios, { AxiosResponse } from 'axios';
 import { IActivity } from '../Models/activity';
+import { history } from '../..';
+import { toast } from 'react-toastify';
 
 axios.defaults.baseURL = 'https://localhost:5001/api';
+
+axios.interceptors.response.use(undefined, error => {
+  if (error.message === 'Network Error' && !error.response) {
+    toast.error('Network error - Please comeback later.');
+  }
+
+  const { status, config } = error.response;
+
+  if (status === 404) {
+    history.push('/notfound');
+  }
+
+  if (status == 400 && config.method === 'get') {
+    history.push('/notfound');
+  }
+
+  if (status === 500) {
+    toast.error('Internal server error...')
+  }
+})
 
 const responseBody = (response: AxiosResponse) => response.data;
 
