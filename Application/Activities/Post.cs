@@ -7,17 +7,18 @@ using Persistence;
 
 namespace Application.Activities
 {
-    public class Create
+  public class Post
+  {
+    public class Command : IRequest
     {
-        public class Command : IRequest
-        {
-            public string Title { get; set; }
-            public string Description { get; set; }
-            public string Category { get; set; }
-            public DateTime Date { get; set; }
-            public string City { get; set; }
-            public string Venue { get; set;}
-        }
+      public Guid Id { get; set; }
+      public string Title { get; set; }
+      public string Description { get; set; }
+      public string Category { get; set; }
+      public DateTime Date { get; set; }
+      public string City { get; set; }
+      public string Venue { get; set; }
+    }
 
     public class Handler : IRequestHandler<Command>
     {
@@ -32,12 +33,13 @@ namespace Application.Activities
       {
         var activity = new Activity
         {
-            Title = request.Title,
-            Description = request.Description,
-            Category = request.Category,
-            Date = request.Date,
-            City = request.City,
-            Venue = request.Venue
+          Id = request.Id,
+          Title = request.Title,
+          Description = request.Description,
+          Category = request.Category,
+          Date = request.Date,
+          City = request.City,
+          Venue = request.Venue
         };
 
         _context.Activities.Add(activity);
@@ -45,7 +47,7 @@ namespace Application.Activities
         var success = await _context.SaveChangesAsync() > 0;
 
         if (success) return Unit.Value;
-        
+
         throw new Exception("There was a problem saving changes.");
       }
     }

@@ -42,6 +42,10 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Social Api", Version = "v1" });
             });
+            
+            services.ConfigureSwaggerGen(options => {
+                options.CustomSchemaIds(x => x.FullName);
+            });
 
             services.AddControllers();
         }

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-  [Route("api/[controller]")]
   public class ActivitiesController : ControllerBase
   {
       private readonly IMediator _mediator;
@@ -18,31 +17,35 @@ namespace API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Activity>>> List()
+    [Route("/api/activities")]
+    public async Task<ActionResult<List<Activity>>> GetAll()
     {
         return await _mediator.Send(new GetAll.Query());
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Activity>> Details(Guid id)
+    [HttpGet]
+    [Route("/api/activity/{id}")]
+    public async Task<ActionResult<Activity>> GetOne(Guid id)
     {
       return await _mediator.Send(new GetOne.Query{Id = id});
     }
 
     [HttpPost]
-    public async Task<ActionResult<Unit>> Create([FromBody]Create.Command command)
+    [Route("/api/createActivity")]
+    public async Task<ActionResult<Unit>> Post([FromBody]Post.Command command)
     {
       return await _mediator.Send(command);
     }
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult<Unit>> Update([FromBody]UpdateActivity.Command command, Guid id)
+    [HttpPut]
+    [Route("/api/updateActivity")]
+    public async Task<ActionResult<Unit>> Put([FromBody]Put.Command command)
     {
-      command.Id = id;
       return await _mediator.Send(command);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete]
+    [Route("/api/deleteActivity/{id}")]
     public async Task<ActionResult<Unit>> Delete(Guid id)
     {
       return await _mediator.Send(new Delete.Command{ Id = id });
