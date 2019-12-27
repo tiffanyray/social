@@ -3,6 +3,7 @@ import {
   Segment, Image, Item, Header, Button,
 } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
+import { Link } from 'react-router-dom';
 import { IActivity } from '../../../App/Models/activity';
 
 
@@ -56,7 +57,12 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({ activity })
       <Button>
         Cancel attendance
       </Button>
-      <Button color="orange" floated="right">
+      <Button
+        as={Link}
+        to={`/manage/${activity.id}`}
+        color="orange"
+        floated="right"
+      >
         Manage Event
       </Button>
     </Segment>
