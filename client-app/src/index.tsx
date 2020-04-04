@@ -6,9 +6,12 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import App from './App/App';
 // import * as serviceWorker from './serviceWorker';
 import 'semantic-ui-css/semantic.min.css';
+import 'react-widgets/dist/css/react-widgets.css'
 import ScrollToTop from './Core/useScrollToTop';
+import dateFnsLocalizer from 'react-widgets-date-fns';
 
-/* eslint import/prefer-default-export:0 */
+dateFnsLocalizer();
+
 export const history = createBrowserHistory();
 
 ReactDOM.render(

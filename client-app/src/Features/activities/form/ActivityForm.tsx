@@ -10,8 +10,11 @@ import { RouteComponentProps } from 'react-router';
 import { Form as FinalForm, Field } from 'react-final-form';
 import TextInput from '../../../Core/form/TextInput';
 import TextAreaInput from '../../../Core/form/TextAreaInput';
+import SelectInput from '../../../Core/form/SelectInput';
+import DateInput from '../../../Core/form/DateInput';
 import { IActivity } from '../../../App/Models/activity';
 import ActivityStore from '../../../App/Stores/activityStore';
+import categoryOptions from './categoryOptions';
 
 interface DetailProps {
   id: string;
@@ -23,7 +26,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailProps>> = ({ match, histo
     title: '',
     description: '',
     category: '',
-    date: '',
+    date: null,
     city: '',
     venue: '',
   };
@@ -100,13 +103,14 @@ const ActivityForm: React.FC<RouteComponentProps<DetailProps>> = ({ match, histo
                   name="category"
                   value={activity.category}
                   placeholder="Category"
-                  component={TextInput}
+                  component={SelectInput}
+                  options={categoryOptions}
                 />
                 <Field
                   name="date"
                   value={activity.date}
                   placeholder="Date"
-                  component={TextInput}
+                  component={DateInput}
                 />
                 <Field
                   name="city"

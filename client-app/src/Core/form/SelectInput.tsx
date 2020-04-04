@@ -4,7 +4,7 @@ import {
   FormFieldProps, Form, Label, Select,
 } from 'semantic-ui-react';
 
-interface IProps extends FieldRenderProps<string, HTMLSelectElement>, FormFieldProps { }
+interface IProps extends FieldRenderProps<string, HTMLElement>, FormFieldProps { }
 
 const SelectInput: React.FC<IProps> = ({
   input,

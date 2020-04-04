@@ -1,10 +1,8 @@
-import React from 'react';
-import {
-  Item, Button, Segment, Icon,
-} from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
-import { IActivity } from '../../../App/Models/activity';
+import React from "react";
+import { Item, Button, Segment, Icon } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import { IActivity } from "../../../App/Models/activity";
 
 const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => (
   <Segment.Group>
@@ -14,9 +12,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => (
           <Item.Image size="tiny" circular src="assets/user.png"></Item.Image>
           <Item.Content>
             <Item.Header as="a">{activity.title}</Item.Header>
-            <Item.Description>
-              Hosted by Tiffany
-            </Item.Description>
+            <Item.Description>Hosted by Tiffany</Item.Description>
           </Item.Content>
         </Item>
       </Item.Group>
@@ -27,12 +23,10 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => (
       <br />
       <Icon name="marker" />
       {activity.venue}
-      {', '}
+      {", "}
       {activity.city}
     </Segment>
-    <Segment secondary>
-      Attendees will go here
-    </Segment>
+    <Segment secondary>Attendees will go here</Segment>
     <Segment clearing>
       <span>{activity.description}</span>
       <Button

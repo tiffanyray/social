@@ -5,11 +5,11 @@ import {
   Route, withRouter, RouteComponentProps, Switch,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import Header from '../features/navigation/Header';
-import ActivityDashboard from '../features/activities/dashboard/ActivityDashboard';
-import HomePage from '../features/home/HomePage';
-import ActivityForm from '../features/activities/form/ActivityForm';
-import ActivityDetails from '../features/activities/details/ActivityDetails';
+import Header from '../Features/Navigation/Header';
+import ActivityDashboard from '../Features/activities/dashboard/ActivityDashboard'
+import HomePage from '../Features/home/HomePage';
+import ActivityForm from '../Features/activities/form/ActivityForm';
+import ActivityDetails from '../Features/activities/details/ActivityDetails';
 import NotFound from './Api/Layout/NotFound';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => (
