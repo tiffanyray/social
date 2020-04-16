@@ -39,7 +39,7 @@ namespace API.Controllers
     }
 
     [HttpPut]
-    [Route("/api/updateActivity")]
+    [Route("/api/updateActivity/{id}")]
     public async Task<ActionResult<Unit>> Put([FromBody]Put.Command command)
     {
       return await _mediator.Send(command);

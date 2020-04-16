@@ -1,46 +1,43 @@
-import React from 'react';
-import {
-  Segment, Image, Item, Header, Button,
-} from 'semantic-ui-react';
-import { observer } from 'mobx-react-lite';
-import { Link } from 'react-router-dom';
-import { IActivity } from '../../../App/Models/activity';
-
+import React from "react";
+import { Segment, Image, Item, Header, Button } from "semantic-ui-react";
+import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
+import { IActivity } from "../../../App/Models/activity";
+import { format } from "date-fns";
 
 const activityImageStyle = {
-  filter: 'brightness(30%)',
+  filter: "brightness(30%)",
 };
 
 const activityImageTextStyle = {
-  position: 'absolute',
-  bottom: '5%',
-  left: '5%',
-  width: '100%',
-  height: 'auto',
-  color: 'white',
+  position: "absolute",
+  bottom: "5%",
+  left: "5%",
+  width: "100%",
+  height: "auto",
+  color: "white",
 };
 
-const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({ activity }) => (
+const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
+  activity,
+}) => (
   <Segment.Group>
-    <Segment basic attached="top" style={{ padding: '0' }}>
+    <Segment basic attached="top" style={{ padding: "0" }}>
       <Image
         src={`/assets/categoryImages/${activity.category}.jpg`}
         fluid
         style={activityImageStyle}
       />
-      <Segment
-        basic
-        style={activityImageTextStyle}
-      >
+      <Segment basic style={activityImageTextStyle}>
         <Item.Group>
           <Item>
             <Item.Content>
               <Header
                 size="huge"
                 content={activity.title}
-                style={{ color: 'white' }}
+                style={{ color: "white" }}
               />
-              <p>{activity.date}</p>
+              <p>{format(activity.date, "eeee do MMMM")}</p>
               <p>
                 Hosted by
                 <strong> Tiffany</strong>
@@ -51,12 +48,8 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({ activity })
       </Segment>
     </Segment>
     <Segment>
-      <Button color="teal">
-        Join Activity
-      </Button>
-      <Button>
-        Cancel attendance
-      </Button>
+      <Button color="teal">Join Activity</Button>
+      <Button>Cancel attendance</Button>
       <Button
         as={Link}
         to={`/manage/${activity.id}`}
