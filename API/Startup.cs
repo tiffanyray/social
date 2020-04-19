@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Swashbuckle.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace API
 {
@@ -81,7 +83,11 @@ namespace API
         options.CustomSchemaIds(x => x.FullName);
       });
 
-      services.AddControllers()
+      services.AddControllers(opt => 
+      {
+        var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+        opt.Filters.Add(new AuthorizeFilter(policy));
+      })
         .AddFluentValidation(config =>
         {
           config.RegisterValidatorsFromAssemblyContaining<Post>();
