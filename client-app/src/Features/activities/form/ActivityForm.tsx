@@ -9,12 +9,15 @@ import TextAreaInput from "../../../Core/form/TextAreaInput";
 import SelectInput from "../../../Core/form/SelectInput";
 import DateInput from "../../../Core/form/DateInput";
 import { combineDateAndTime } from "../../../Core/util/util";
-import {
-  ActivityFormValues,
-} from "../../../App/Models/activity";
-import ActivityStore from "../../../App/Stores/activityStore";
+import { ActivityFormValues } from "../../../App/Models/activity";
 import categoryOptions from "./categoryOptions";
-import { combineValidators, isRequired, composeValidators, hasLengthGreaterThan } from 'revalidate'
+import {
+  combineValidators,
+  isRequired,
+  composeValidators,
+  hasLengthGreaterThan,
+} from "revalidate";
+import { RootStoreContext } from "../../../App/Stores/rootStore";
 
 interface DetailProps {
   id: string;
@@ -24,28 +27,30 @@ const ActivityForm: React.FC<RouteComponentProps<DetailProps>> = ({
   match,
   history,
 }) => {
-  const activityStore = useContext(ActivityStore);
+  const rootStore = useContext(RootStoreContext);
   const {
     createActivity,
     editActivty,
     submitting,
     loadActivity,
-  } = activityStore;
+  } = rootStore.activityStore;
 
   const [activity, setActivity] = useState(new ActivityFormValues());
 
   const validate = combineValidators({
-    title: isRequired('Title'),
-    category: isRequired('Category'),
+    title: isRequired("Title"),
+    category: isRequired("Category"),
     description: composeValidators(
-      isRequired('Description'),
-      hasLengthGreaterThan(4)({ message: 'Description needs to be at least five characters' })
+      isRequired("Description"),
+      hasLengthGreaterThan(4)({
+        message: "Description needs to be at least five characters",
+      })
     )(),
-    city: isRequired('City'),
-    venue: isRequired('Venue'),
-    date: isRequired('Date'),
-    time: isRequired('Time')
-  })
+    city: isRequired("City"),
+    venue: isRequired("Venue"),
+    date: isRequired("Date"),
+    time: isRequired("Time"),
+  });
 
   const onFinalFormSubmit = (values: any) => {
     const dateAndTime = combineDateAndTime(values.date, values.time);
