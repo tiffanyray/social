@@ -10,6 +10,7 @@ import ActivityDashboard from '../Features/activities/dashboard/ActivityDashboar
 import HomePage from '../Features/home/HomePage';
 import ActivityForm from '../Features/activities/form/ActivityForm';
 import ActivityDetails from '../Features/activities/details/ActivityDetails';
+import LoginForm from '../Features/user/LoginForm';
 import NotFound from './Api/Layout/NotFound';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => (
@@ -37,6 +38,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => (
                 path={['/createForm', '/manage/:id']}
                 component={ActivityForm}
               />
+              <Route path="/login" component={LoginForm} />
               <Route
                 component={NotFound}
               />

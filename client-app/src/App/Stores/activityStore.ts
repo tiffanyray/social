@@ -1,12 +1,10 @@
-import { observable, action, computed, configure, runInAction } from "mobx";
-import { createContext, SyntheticEvent } from "react";
+import { observable, action, computed, runInAction } from "mobx";
+import { SyntheticEvent } from "react";
 import { IActivity } from "../Models/activity";
 import agent from "../Api/agent";
 import { history } from "../../index";
 import { toast } from "react-toastify";
-import { RootStore } from './rootStore';
-
-configure({ enforceActions: "always" });
+import { RootStore } from "./rootStore";
 
 export default class ActivityStore {
   rootStore: RootStore;
@@ -104,7 +102,7 @@ export default class ActivityStore {
       history.push(`/activities/${activity.id}`);
     } catch (error) {
       console.error(error);
-      toast.error('Problem submitting data.')
+      toast.error("Problem submitting data.");
       runInAction("create load error", () => {
         this.submitting = false;
       });
@@ -124,7 +122,7 @@ export default class ActivityStore {
       history.push(`/activities/${activity.id}`);
     } catch (error) {
       console.error(error);
-      toast.error('Problem submitting data.')
+      toast.error("Problem submitting data.");
       runInAction("edit load error", () => {
         this.submitting = false;
       });
