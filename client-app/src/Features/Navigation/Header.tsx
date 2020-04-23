@@ -6,7 +6,7 @@ import { RootStoreContext } from "../../App/Stores/rootStore";
 
 const Header: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
-  const { isLoggedIn, user } = rootStore.userStore;
+  const { isLoggedIn, user, logout } = rootStore.userStore;
 
   return (
     <Menu fixed="top" inverted>
@@ -36,7 +36,7 @@ const Header: React.FC = () => {
                   text="My profile"
                   icon="user"
                 />
-                <Dropdown.Item text="Logout" icon="power" />
+                <Dropdown.Item text="Logout" icon="power" onClick={logout} />
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Item>
