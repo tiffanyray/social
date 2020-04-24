@@ -17,6 +17,7 @@ import LoginForm from "../Features/user/LoginForm";
 import NotFound from "./Api/Layout/NotFound";
 import { RootStoreContext } from "./Stores/rootStore";
 import LoadingComponent from "./Api/Layout/LoadingComponent";
+import ModalContainer from '../Core/modals/ModalContainer';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -35,6 +36,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 
   return (
     <>
+    <ModalContainer />
       <ToastContainer position="bottom-right" />
       <Route path="/" component={HomePage} exact />
       <Route

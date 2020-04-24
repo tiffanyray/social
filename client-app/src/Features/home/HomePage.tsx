@@ -3,10 +3,12 @@ import { Container, Segment, Header, Button, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import "./HomePage.scss";
 import { RootStoreContext } from "../../App/Stores/rootStore";
+import LoginForm from "../user/LoginForm";
 
 const HomePage = () => {
   const rootStore = useContext(RootStoreContext);
   const { isLoggedIn, user } = rootStore.userStore;
+  const { openModal } = rootStore.modalStore;
 
   return (
     <Segment inverted textAlign="center" vertical className="masthead">
@@ -34,8 +36,16 @@ const HomePage = () => {
         ) : (
           <Fragment>
             <Header as="h2" inverted content="Welcome to Social" />
-            <Button as={Link} to="/login" size="huge" inverted>
+            <Button
+              onClick={() => openModal(<LoginForm />)}
+              to="/login"
+              size="huge"
+              inverted
+            >
               Login
+            </Button>
+            <Button as={Link} to="/register" size="huge" inverted>
+              Register
             </Button>
           </Fragment>
         )}
