@@ -26,6 +26,7 @@ export default class UserStore {
       });
 
       this.rootStore.commonStore.setToken(user.token);
+      this.rootStore.modalStore.closeModal();
       history.push("/activities");
     } catch (error) {
       console.error(error);
@@ -41,6 +42,18 @@ export default class UserStore {
       });
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  @action register = async (values: IUserFormValues) => {
+    try {
+      const user = await agent.User.register(values);
+      this.rootStore.commonStore.setToken(user.token);
+      this.rootStore.modalStore.closeModal();
+      history.push("/activities");
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
   };
 

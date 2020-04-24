@@ -56,7 +56,6 @@ const ActivityForm: React.FC<RouteComponentProps<DetailProps>> = ({
     const dateAndTime = combineDateAndTime(values.date, values.time);
     const { date, time, ...activity } = values;
     activity.date = dateAndTime;
-    console.log(activity);
 
     if (!activity.id) {
       const newActivity = {
