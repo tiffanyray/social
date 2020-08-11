@@ -59,7 +59,7 @@ namespace Application.Activities {
           AppUser = user,
           Activity = activity,
           IsHost = true,
-          DataJoined = DateTime.Now
+          DateJoined = DateTime.Now
         };
 
         _context.UserActivities.Add(attendee);

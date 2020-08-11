@@ -122,7 +122,7 @@ namespace Persistence.Migrations
                     b.Property<Guid>("ActivityId")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DataJoined")
+                    b.Property<DateTime>("DateJoined")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsHost")
