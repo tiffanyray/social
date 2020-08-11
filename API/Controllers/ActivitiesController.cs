@@ -31,12 +31,14 @@ namespace API.Controllers
     }
 
     [HttpPut("update/{id}")]
+    [Authorize(Policy = "IsActivityHost")]
     public async Task<ActionResult<Unit>> Put([FromBody]Put.Command command)
     {
       return await Mediator.Send(command);
     }
 
     [HttpDelete("delete/{id}")]
+    [Authorize(Policy = "IsActivityHost")]
     public async Task<ActionResult<Unit>> Delete(Guid id)
     {
       return await Mediator.Send(new Delete.Command{ Id = id });
