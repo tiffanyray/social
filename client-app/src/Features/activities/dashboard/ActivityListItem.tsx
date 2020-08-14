@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { IActivity } from "../../../App/Models/activity";
 import { format } from 'date-fns';
+import ActivityListItemAttendees from './ActivityListItemAttendees'
 
 const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => (
   <Segment.Group>
@@ -27,7 +28,9 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => (
       {", "}
       {activity.city}
     </Segment>
-    <Segment secondary>Attendees will go here</Segment>
+    <Segment secondary>
+        <ActivityListItemAttendees attendees={activity.attendees} />
+    </Segment>
     <Segment clearing>
       <span>{activity.description}</span>
       <Button
