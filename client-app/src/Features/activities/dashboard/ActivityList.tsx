@@ -12,7 +12,6 @@ const ActivityList: React.FC = () => {
   return (
     <>
       {activitiesByDate.map(([group, activities]) => {
-        console.log(group);
         return (
           <Fragment key={group}>
             <Label size="medium" color="blue">
