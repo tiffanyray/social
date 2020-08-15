@@ -12,7 +12,6 @@ interface IProps {
 
 const ActivityDetailedSidebar: React.FC<IProps> = ({attendees}) => {
     let attendeeLength = attendees.length
-    const isHost = false;
 
     return <>
         <Segment
@@ -32,7 +31,7 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({attendees}) => {
                         return <Item key={attendee.username}
                                      style={{position: 'relative'}}
                         >
-                            {isHost && <Label
+                            {attendee.isHost && <Label
                                 style={{position: 'absolute'}}
                                 color="orange"
                                 ribbon="right"
