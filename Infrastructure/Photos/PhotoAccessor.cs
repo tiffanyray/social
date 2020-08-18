@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using System;
+using Application.Interfaces;
 using Application.Photos;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -10,15 +11,15 @@ namespace Infrastructure.Photos
     public class PhotoAccessor : IPhotoAccessor
     {
         private readonly Cloudinary _cloudinary;
-        
+
         public PhotoAccessor(IOptions<CloudinarySettings> config)
         {
             var acc = new Account(
                 config.Value.CloudName,
                 config.Value.ApiKey,
                 config.Value.AppSecret
-                );
-            
+            );
+
             _cloudinary = new Cloudinary(acc);
         }
 
@@ -38,6 +39,10 @@ namespace Infrastructure.Photos
                     uploadResults = _cloudinary.Upload(uploadParams);
                 }
             }
+
+            if (uploadResults.Error != null)
+                throw new Exception(uploadResults.Error.Message);
+
             return new PhotoUploadResult
             {
                 PublicId = uploadResults.PublicId,
