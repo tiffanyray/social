@@ -19,6 +19,7 @@
     },
     "API": {
       "commandName": "Project",
+      "commandLineArgs": "watch run",
       "launchBrowser": true,
       "launchUrl": "swagger/index.html",
       "environmentVariables": {
